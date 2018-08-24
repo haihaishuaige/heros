@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hero - Admin</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <style>
+        .hero-list img {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="page-header container">
+            <h1>王者荣耀 <small>英雄管理器</small></h1>
+        </div>
+    </header>
+    <div class="container hero-list">
+        <form action="/add" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="img" id="img1">
+            <table class="table table-hover">
+                <tr>
+                    <td>姓名：</td>
+                    <td><input type="text" name="name"></td>
+                </tr>
+                <tr>
+                    <td>性别：</td>
+                    <td><input id="nan" name="gender" value="男" type="radio"><label for="nan">男</label> <input name="gender" value="女" type="radio" id="nv" checked="checked"><label for="nv">女</label></td>
+                </tr>
+                <tr>
+                    <td>头像：</td>
+                    <td><img src="" alt="" id="photo" style='width:200px'>
+                    <input type="file" id="img"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" id="sub" value="新增"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+<script src = "/js/jquery.min.js"></script>
+<script>
+   //实时展示图片
+   $('#img').on('change',function(){
+       var formDate = new FormData();
+       formDate.append('img',document.querySelector('#img').files[0])     
+       //发送ajax把图片存起来
+       $.ajax({
+           url:'/upload',
+           type:'post',
+           data:formDate,
+           contentType: false,
+           processData: false,
+           dataType:'json',
+           success:function(res){
+               if(res.code==200){
+                   $('#photo').attr('src','/images/'+res.data);
+                   //给隐藏域设置这个路径
+                   $('#img1').val(res.data);
+               }   
+           }
+       })
+   })
+   //点击新增上传内容，增加信息
+   $('#sub').on('click',function(e){
+       //阻止表单的提交刷新行为
+       e.preventDefault();
+       //获取表单的name属性的内容
+       var formValue = $('form').serialize();
+        // console.log(formValue);  获取到了所有带有name属性的值
+        $.ajax({
+            type:'post',
+            url:'/add',
+            dataType:'json',
+            data:formValue,
+            success:function(res){
+                if(res.code==200){
+                    location.href = '/'
+                }
+                
+            }
+        })
+       
+   })
+
+</script>
+</html>

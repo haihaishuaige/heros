@@ -1,0 +1,19 @@
+1.下载三个第三方包：
+    art-template
+    jquery
+    bootstrap
+
+2.准备好三个静态文件
+    index.html  add.html  edit.html
+
+3.分析案例中的业务
+    1.展示首页动态数据  url=="/" method=="get"
+    2.获取静态资源--如css,img  url.indexOf("/images/") == 0 || url.indexOf("/node_modules/") == 0
+    3.展示新增静态页面 url=="/add" method=="get"
+    4.上传文件 url=="/uploadpic" method=="post"
+    5.实现新增功能 url=="/add" method=="post"
+    6.展示修改动态页面 url.indexOf('/edit/') == 0  method=="get"
+    7.实现修改功能 url=="/edit/" methdo=="post"
+    8.实现删除功能 url.indexOf("/del/") == 0 method=="get"
+
+4.在node中创建服务器
